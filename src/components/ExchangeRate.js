@@ -1,34 +1,31 @@
 import getExchangeRates from './api'
-
+import renderCurrency from './templates'
 
 class ExchangeRate {
   constructor(selector){
     this.$el = document.querySelector(selector)
   }
 
-  render(){
-    const getRates = getExchangeRates()
+  async render(){
+    const getData = await getExchangeRates()
+    const arr = getData.map(item => renderCurrency(item.name, item.rate))
+
     let html = `
     <div class="container">
     <div class="row">
       <div class="col s3">
         <h3> Курс валют </h3>
-      </div> 
-    </div>  
+      </div>
+    </div>
       <div class="col s3">
-        <div class="collection" id="collectionId"></div>
+        <div class="collection" id="collectionId">${arr.join('')} </div>
       </div>
     </div>
     </div>`
-/*     getRates.then(data => {      
-      data.forEach(item => {        
-        html += `<a href="#!" class="collection-item"><span class="badge">${item.rate}</span>${item.name}</a>`
-      })    
-      this.$el.insertAdjacentHTML('afterbegin', html)
-    })     */
+  
     this.$el.innerHTML = ''
     this.$el.insertAdjacentHTML('afterbegin', html)
-
+    
   }
 }
 
