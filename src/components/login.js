@@ -7,7 +7,7 @@ class Login {
 
   render(){
     let html = loginPage()
-
+    console.log(`Login`)
     this.$el.innerHTML = ''
     this.$el.insertAdjacentHTML('beforeend', html)
     this.iniListeners()
