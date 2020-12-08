@@ -1,5 +1,5 @@
 {
-  "name": "learning-app",
+  "name": "learning-app-new",
   "version": "1.0.0",
   "description": "learning pure js",
   "main": "index.js",
@@ -18,8 +18,8 @@
   "license": "ISC",
   "devDependencies": {
     "html-webpack-plugin": "^4.5.0",
-    "webpack": "^5.9.0",
-    "webpack-cli": "^3.3.4",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   }
 }
