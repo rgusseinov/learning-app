@@ -1,9 +1,14 @@
+import { getUser } from "./utils"
+
 export function renderCurrency(name, rate){
   return `<a href="#!" class="collection-item"><span class="badge">${name}</span>${rate}</a>`
 }
 
 
 export function loginPage(){
+
+  const isLogged = getUser()
+  if (!isLogged){
   return `
     <div class="row">
       <form class="col s12" id="loginForm">
@@ -26,6 +31,28 @@ export function loginPage(){
         </div>
       </form>
     </div>
-        
   `
+  } else {
+    return `
+    <h2> Welcome to personal cabinet </h2>
+    <table>
+    <thead>
+      <tr>
+          <th>Name</th>
+          <th>Last Name </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>Ruslan</td>
+        <td>Gusseinov</td>
+      </tr>
+      
+    </tbody>
+  </table>
+        
+  <a class="waves-effect waves-light btn-small actionLogout">Log out</a>
+    `
+  }
 }

@@ -1,5 +1,5 @@
 import getExchangeRates from './api'
-import renderCurrency from './templates'
+import {renderCurrency} from './templates'
 
 class ExchangeRate {
   constructor(selector){
