@@ -3,10 +3,9 @@ import ExchangeRate from './components/ExchangeRate'
 import Login from './components/login';
 import Main from './components/main';
 
-const site = new Main('#app')
+/* const site = new Main('#app')
 site.render()
-
-
+ */
 
 window.addEventListener('hashchange', function(){
   const changedURL = location.hash.substring(1)
