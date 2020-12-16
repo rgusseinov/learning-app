@@ -16,7 +16,6 @@ class Login {
 
 
   iniListeners(){
-
     // Log in
     if (!getUser()){
       document.querySelector('#loginForm').addEventListener('submit', function(e){
@@ -37,7 +36,7 @@ class Login {
       document.querySelector('.actionLogout').addEventListener('click', function(e){
         e.preventDefault()
         location.reload('')
-        localStorage.setItem('user', '')
+        localStorage.setItem('user', JSON.stringify([]))
       })
 
     }

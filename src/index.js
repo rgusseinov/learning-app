@@ -1,7 +1,6 @@
 import myPlanner from './components/myplanner'
 import ExchangeRate from './components/ExchangeRate'
 import Login from './components/login';
-import Main from './components/main';
 
 window.addEventListener('hashchange', function(){
   const changedURL = location.hash.substring(1)

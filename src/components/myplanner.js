@@ -10,7 +10,7 @@ class myPlanner {
     const taskItems = data.map(item => {
       return `
         <div class="box" draggable="true" data-id="${item.id}">
-          <span> ${item.cost} </span>
+          <span style="font-size:14px;"> ${item.cost} USD </span>
           <span>  <input class="file-path validate fill" value="${item.task}" type="text"> </span>
           <span>  <i class="material-icons removeTask">cancel</i> </span>
         </div>`

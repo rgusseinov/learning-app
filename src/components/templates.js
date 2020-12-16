@@ -7,8 +7,12 @@ export function renderCurrency(name, rate){
 
 export function loginPage(){
 
-  const isLogged = getUser()
-  if (!isLogged){
+  let firstName = null, lastName = null
+  let user = JSON.parse(localStorage.getItem('user')) || []   
+  if (user.firstName) firstName = user.firstName
+  if (user.lastName) lastName = user.lastName
+
+  if (!user.isLogged){
   return `
     <div class="row">
       <form class="col s12" id="loginForm">
@@ -45,8 +49,8 @@ export function loginPage(){
 
     <tbody>
       <tr>
-        <td>Ruslan</td>
-        <td>Gusseinov</td>
+        <td>${firstName}</td>
+        <td>${lastName}</td>
       </tr>
       
     </tbody>
