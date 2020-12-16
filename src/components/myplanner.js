@@ -1,52 +1,40 @@
+import { getStorage, setStorage } from "./utils"
+
 class myPlanner {
   constructor(selector){
     this.$el = document.querySelector(selector)
   }
 
   render(){
-    /*
-      - Add new task
-      - Remove task
-      - edit task
-      - move task
-    */
-    /*
-    [
-      {
-        task: "Bying subscription on udemy", id: 1, order: 1
-      },
-      {
-        task: "Bying", id: 0, order: 0
-      }
-    ]
-    */
-    let data = [
-      { task: "Bying subscription on udemy", cost:"12.25", id: 1, order: 1 },
-      { task: "Task 2", cost:"147.13", id: 2, order: 2 },
-      { task: "Task 3", cost:"65.16", id: 3, order: 3 },
-      { task: "Task 4", cost:"71.23", id: 4, order: 4 }
-    ]
-
+    let data = getStorage()
     const taskItems = data.map(item => {
       return `
-        <div class="box" draggable="true">
+        <div class="box" draggable="true" data-id="${item.id}">
           <span> ${item.cost} </span>
           <span>  <input class="file-path validate fill" value="${item.task}" type="text"> </span>
-          <span>  <i class="material-icons">cancel</i> </span>
+          <span>  <i class="material-icons removeTask">cancel</i> </span>
         </div>`
     })
     this.$el.innerHTML = ''
     this.$el.insertAdjacentHTML('beforeend', `
     
-        <form action="#">
-        <div class="file-field input-field">        
-        <a class="waves-effect waves-light btn">Add task</a>     
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text">
-          </div>          
-        </div>
-      </form>       
-  
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+          <div class="input-field col s2">
+            <a class="waves-effect waves-light btn" id="addNewsTask">Add task</a>
+          </div> 
+            <div class="input-field col s8">
+              <input placeholder="Task name" type="text" class="taskName">
+            </div>
+            <div class="input-field col s2">
+              <input placeholder="Price" type="text" class="priceName">
+            </div>
+          </div>
+        </form>
+      </div>
+
+
       <div class="container">
         ${taskItems.join('')}
       </div>
@@ -59,12 +47,10 @@ class myPlanner {
   
   initListeners(){
 
-
     let items = document.querySelectorAll('.box')
     let globThis = null
     
     function handleDragStart(e){
-      //console.log(`start`, this)
       globThis = this
       e.dataTransfer.setData('text/plain', this.innerHTML)
     }
@@ -75,18 +61,31 @@ class myPlanner {
     
     function handleDrop(e){
         e.stopPropagation()
-        let el = e.dataTransfer.getData('text')
-        //console.dir(el)
+        const arr = []
         if (globThis != this){
             globThis.innerHTML = this.innerHTML
             this.innerHTML = e.dataTransfer.getData('text')
         }
-    
-    
+
+        let boxes = document.querySelectorAll('.container .box')
+        boxes.forEach((box, index) => {
+          const price = box.querySelectorAll('span')
+          const priceText = price[0].textContent
+          const taskName = price[1].querySelector('input').value
+          
+          arr.push({
+            id: index + 1, task: taskName, cost: priceText, order: index + 1
+          })
+         
+        })
+        setStorage('tasks', arr)
+        location.reload()
+        
       return false
     }
     
-    function handleDragEnd(e){  
+    function handleDragEnd(e){
+
     }
     
     items.forEach(item => {
@@ -95,6 +94,38 @@ class myPlanner {
       item.addEventListener('drop', handleDrop, false)
       item.addEventListener('dragend', handleDragEnd, false)
     }) 
+
+    // Adding new task
+    document.querySelector('#addNewsTask').addEventListener('click', function(e){
+      e.preventDefault()
+      let taskName = document.querySelector('.taskName').value
+      let priceName = document.querySelector('.priceName').value
+      
+      let taskList = getStorage()
+      taskList.push({
+        id: taskList.length + 1, task: taskName, cost: priceName, order: taskList.length + 1
+      })
+
+      setStorage('tasks', taskList)
+      location.reload()
+    })
+
+   
+    // Removing task
+    
+    document.querySelector('.container').addEventListener('click', function(e){
+      e.preventDefault()      
+      if (e.target.classList.contains('removeTask')){
+        let taskId = parseInt(e.target.parentElement.parentElement.dataset.id)
+        let taskList = getStorage()
+        let newTaskList = taskList.filter(item => item.id !== taskId)
+
+        setStorage('tasks', newTaskList)
+        // location.reload()
+      }
+      
+  
+    })
 
   }
 
