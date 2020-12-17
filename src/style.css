@@ -1,0 +1,10 @@
+.blocks .panel {
+  width: 400px;
+}
+.blocks {
+  display: flex;
+  margin-right: 10px;
+}
+.block  {
+  margin-right: 20px;
+}
