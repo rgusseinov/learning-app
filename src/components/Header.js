@@ -9,11 +9,11 @@ class Header {
       <div class="navbar-item">
         <div class="field is-grouped">
             <p class="control">
-              <a class="button">
+              <a class="button addBlock">
                 <span class="icon">
                   <i class="fas fa-plus" aria-hidden="true"></i>
                 </span>
-                <span>New task</span>
+                <span>New block</span>
               </a>
             </p>
           </div>
@@ -21,5 +21,6 @@ class Header {
     </nav>`
   }
 }
+
 
 export default Header

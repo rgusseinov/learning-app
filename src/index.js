@@ -19,7 +19,7 @@ import './style.css';
   */
 
 const main = new Main('#app', {
-  components: [Header, Blocks]}
+  components: [Blocks]}
 )
 
 main.render()
