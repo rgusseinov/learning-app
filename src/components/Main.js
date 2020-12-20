@@ -14,7 +14,7 @@ class Main {
   }
 
   render(){
-     this.$el.innerHTML = this.getRoot()
+    this.$el.innerHTML = this.getRoot()
   }
 }
 
