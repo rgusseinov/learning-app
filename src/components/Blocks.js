@@ -23,10 +23,15 @@ class Blocks {
   getBlocks(blockId, boardName, tasks){
     let taskList = tasks.map(task => {
       return `
-      <a class="panel-block" id="${task.id}">
+      <a class="panel-block" id="${task.id}" draggable="true">
         <span class="panel-icon">
-          <i class="fas fa-book" aria-hidden="true"></i>
+          <i class="fas fa-arrows" aria-hidden="true"></i>
         </span> ${task.name}
+
+        <span class="panel-icon icon-trash actionRemoveTask">
+          <i class="fas fa-trash"></i>
+        </span>
+
       </a>      
       `
     })
