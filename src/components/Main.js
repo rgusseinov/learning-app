@@ -121,27 +121,32 @@ function handleDragend(e){ }
 
 function handleRemoveTask(e){
   const storage = getStorage()
-  const taskId = e.target.closest('.panel-block').id
-  e.target.closest('.panel-block').remove()
+  const taskId = parseInt(e.target.closest('.panel-block').id)
+  // e.target.closest('.panel-block').remove()
 
   
-  let task = e.target.closest('.block')
-  console.log(task)
+  // let task = e.target.parentElement.parentElement.parentElement.parentNode
+  // let task = e.target.closest('.block').id
+  // console.log(task)
 
   // Get local storage and make it's clone
   // Add task item in new storage
   // Set new storage
-  // let currentBlockId = e.target.closest('.block').id
-/*   let storage = this.storage.find(blocks => blocks.blockId == currentBlockId)
-  storage.tasks.push({ id: storage.tasks.length + 1, name: task, deleted: false })
+
+    let currentBlockId = e.target.closest('.block').id
+    let store = storage.find(blocks => blocks.blockId == currentBlockId)
+    let removeTaskIndex = store.tasks.findIndex(item => item.id === taskId)
+    store.tasks.splice(removeTaskIndex, 1)
+ 
+
+
+    let newArr = storage.map(item =>  {
+      if (item.blockId == currentBlockId) item = store
+      return item          
+    })
   
-  let newArr = this.storage.map((item, index) =>  {
-    if (item.blockId == currentBlockId) item = storage
-    return item          
-  })
-  
-  setStorage(newArr)
- */
+    setStorage(newArr)
+ 
 
   
   // console.log(storage)
