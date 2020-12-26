@@ -12,3 +12,17 @@
 a.panel-block span.icon-trash {
   margin-left: auto;
 }
+
+.hovered {
+  border: 1px solid red;
+}
+
+.over {
+  border: 2px dotted rgb(129, 129, 129);
+}
+
+.dropZone {
+  height: 45px;
+  background-color: rgb(216, 216, 216);
+  border: 2px solid rgb(177, 177, 177);
+}

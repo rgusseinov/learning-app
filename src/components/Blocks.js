@@ -3,25 +3,31 @@ import {getStorage, setStorage} from './Storage'
 class Blocks {
   constructor(){
     this.storage = getStorage()
-/*     this.data = [
 
+/*        this.data = [
         {blockId: 1, boardName: 'Task list', tasks: [
-          { id: 1, name: 'Create project file', deleted: false },
-          { id: 2, name: 'Close ticket', deleted: false },
-          { id: 3, name: 'Fix GEMS issue', deleted: false }
+          { id: 1, name: 'Create project file 3', order: 3, deleted: false },
+          { id: 2, name: 'Task 1', order: 1, deleted: false },
+          { id: 3, name: 'Task 4', order: 4, deleted: false },
+          { id: 3, name: 'Task 2 ', order: 2, deleted: false }
         ]},
 
         {blockId: 2, boardName: 'In Progress List', tasks: [
-          { id: 1, name: 'Discussing', deleted: false },
+          { id: 1, name: 'Discussing', order: 1, deleted: false },
         ]},
 
     ]
     setStorage(this.data) */
+
+
   }
   
 
   getBlocks(blockId, boardName, tasks){
-    let taskList = tasks.map(task => {
+    let orderedTaskList = []
+    tasks.forEach(item => orderedTaskList[item.order] = { ...item})
+
+    let taskList = orderedTaskList.map(task => {
       return `
       <a class="panel-block" id="${task.id}" draggable="true">
         <span class="panel-icon">
@@ -31,8 +37,7 @@ class Blocks {
         <span class="panel-icon icon-trash actionRemoveTask">
           <i class="fas fa-trash"></i>
         </span>
-
-      </a>      
+      </a>
       `
     })
     return `
@@ -52,6 +57,10 @@ class Blocks {
             </p>
           </div>
           ${taskList.join('')}
+
+
+          <div class="dropZone"></div>
+
         </nav>
     </div>
     `
@@ -73,8 +82,8 @@ class Blocks {
   }
 
   toHTML(){
-    let html = ''
     // Если есть данные в localStorage то рисуем блоки и тасками
+    let html = ''
     // console.log(`storage`, this.storage)
     
     if (this.storage){
