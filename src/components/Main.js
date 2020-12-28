@@ -22,11 +22,15 @@ class Main {
   }
 
   eventListeners(){
+
+    // Delegate event
+    document.querySelector('body').addEventListener('keydown', globalKey)
+
+
     // Adding new task Block
     document.querySelector('.addBlock').addEventListener('click', handleNewBlock.bind(this))
 
     // Remove Block
-
     let taskBlocks = document.querySelectorAll('.actionRemoveBlock')
     taskBlocks.forEach(block => {
       block.addEventListener('click', handleRemoveBlock)
@@ -36,9 +40,8 @@ class Main {
     let searchInput = document.querySelectorAll('.addNewTask')
     searchInput.forEach(searchField => {
       searchField.addEventListener('keydown', (e) => {
-        if (e.code == 'Enter'){
+        if (e.code == 'Enter_test') {
           let task = e.target.value
-         
           // Get local storage and make it's clone
           // Add task item in new storage
           // Set new storage
@@ -50,12 +53,10 @@ class Main {
             if (item.blockId == currentBlockId) item = storage
             return item
           })
-          
           // console.log(newArr)
           setStorage(newArr)
           location.reload()
-        }
-        
+        }     
       })
     })
     
@@ -82,6 +83,32 @@ class Main {
   }
 
 }
+
+function globalKey(e){
+  // console.log(`Clicked`, e.target.value)
+  if (e.code == 'Enter'){
+     let task = e.target.value
+     let storage = getStorage()
+
+      // Get local storage and make it's clone
+      // Add task item in new storage
+      // Set new storage
+      let currentBlockId = e.target.closest('.block').id
+      let storageNew = storage.find(blocks => blocks.blockId == currentBlockId)
+      storageNew.tasks.push({ id: 1, name: 'task', order: 1, deleted: false })
+      
+      let newArr = storage.map((item) => {
+        if (item.blockId == currentBlockId) item = storageNew
+        return item
+      })
+      // console.log(newArr)
+      setStorage(newArr)
+      // location.reload()
+      console.log(`data`, newArr)
+  }
+
+}
+
 
 function handleNewBlock(){
   
@@ -211,7 +238,7 @@ function handleRemoveTask(e){
     let removeTaskIndex = store.tasks.findIndex(item => item.id === taskId)
     store.tasks.splice(removeTaskIndex, 1)
  
-    let newArr = storage.map(item =>  {
+    let newArr = storage.map(item => {
       if (item.blockId == currentBlockId) item = store
       return item          
     })
@@ -222,7 +249,6 @@ function handleRemoveTask(e){
 
     setStorage(newArr)
     // location.reload()
-  
 
 }
 
