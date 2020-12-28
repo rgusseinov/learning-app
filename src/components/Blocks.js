@@ -44,7 +44,7 @@ class Blocks {
       <div class="block" id="${blockId}">
         <nav class="panel">
           <p class="panel-heading">${boardName}
-            <span class="icon has-text-info">
+            <span class="icon has-text-info actionRemoveBlock">
               <i class="fas fa-trash"></i>
             </span>
           </p>
@@ -57,10 +57,6 @@ class Blocks {
             </p>
           </div>
           ${taskList.join('')}
-
-
-          <div class="dropZone"></div>
-
         </nav>
     </div>
     `

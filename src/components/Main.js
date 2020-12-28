@@ -25,12 +25,20 @@ class Main {
     // Adding new task Block
     document.querySelector('.addBlock').addEventListener('click', handleNewBlock.bind(this))
 
+    // Remove Block
+
+    let taskBlocks = document.querySelectorAll('.actionRemoveBlock')
+    taskBlocks.forEach(block => {
+      block.addEventListener('click', handleRemoveBlock)
+    })
+
     // Adding new task
     let searchInput = document.querySelectorAll('.addNewTask')
     searchInput.forEach(searchField => {
       searchField.addEventListener('keydown', (e) => {
         if (e.code == 'Enter'){
           let task = e.target.value
+         
           // Get local storage and make it's clone
           // Add task item in new storage
           // Set new storage
@@ -79,19 +87,14 @@ function handleNewBlock(){
   
   let countBlocks = getStorage().length + 1
   let storage = getStorage()
-
-  storage.push({
-    blockId: countBlocks, boardName: `Board ${countBlocks}`, tasks: []
-  })
-  
+  storage.push({ blockId: countBlocks, boardName: `Board ${countBlocks}`, tasks: [] })
   setStorage(storage)
 
-
   this.$el.insertAdjacentHTML('afterend', `
-      <div class="block" id="">
+      <div class="block" id="${countBlocks}">
         <nav class="panel">
           <p class="panel-heading">Board ${countBlocks}
-            <span class="icon has-text-info">
+            <span class="icon has-text-info actionRemoveBlock">
               <i class="fas fa-trash"></i>
             </span>
           </p>
@@ -106,7 +109,21 @@ function handleNewBlock(){
         </nav>
       </div>
   `)
+
 }
+
+
+function handleRemoveBlock(e){
+  // console.log(`Remove block`, e.target.closest('.block'))
+  const storage = getStorage()
+  let currentBlockId = e.target.closest('.block').id
+  let currentBlockStoreIndex = storage.findIndex(blocks => blocks.blockId == currentBlockId)
+  storage.splice(currentBlockStoreIndex, 1) 
+
+  e.target.closest('.block').remove()
+  setStorage(storage)
+}
+
 
 let dragEl = null
 
