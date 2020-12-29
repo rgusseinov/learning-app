@@ -27,8 +27,11 @@ class Main {
     // Delegate event
     document.querySelector('body').addEventListener('keydown', globalKey)
 
-    // Block name rename
+    // Block name quick edit
     document.querySelector('body').addEventListener('dblclick', handleUserDblCLick)
+
+    // Block quick edit save
+    document.querySelector('body').addEventListener('click', handleBlockSave)
 
     // Adding new task Block
     document.querySelector('.addBlock').addEventListener('click', handleNewBlock.bind(this))
@@ -86,8 +89,30 @@ class Main {
 
 }
 
+// On Block name edit
 function handleUserDblCLick(e){
   e.target.innerHTML = getEditView(e.target.textContent)
+}
+
+
+// On Block name save
+function handleBlockSave(e){
+  if (e.target.parentElement.classList.contains('actionSaveBlock')){
+    const currentBlockId = e.target.closest('.block').id
+    const currentBlockName = e.target.parentElement.previousElementSibling.value.trim()
+    const storage = getStorage()
+
+    let storageNew = storage.find(blocks => blocks.blockId == currentBlockId)
+    storageNew.boardName = currentBlockName
+
+    let newArr = storage.map((item) => {
+      if (item.blockId == currentBlockId) item = storageNew
+      return item
+    })
+
+    // setStorage(newArr)
+    console.log(`storageNew`, newArr)
+  }
 }
 
 
