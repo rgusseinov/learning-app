@@ -1,4 +1,5 @@
 import {getStorage, setStorage} from './Storage'
+import {getEditView} from './Templates'
 
 class Main {
   constructor(selector, options){
@@ -26,6 +27,8 @@ class Main {
     // Delegate event
     document.querySelector('body').addEventListener('keydown', globalKey)
 
+    // Block name rename
+    document.querySelector('body').addEventListener('dblclick', handleUserDblCLick)
 
     // Adding new task Block
     document.querySelector('.addBlock').addEventListener('click', handleNewBlock.bind(this))
@@ -79,32 +82,37 @@ class Main {
     taskItems.forEach(item => {
       item.addEventListener('click', handleRemoveTask.bind(this))
     })
-
   }
 
 }
 
+function handleUserDblCLick(e){
+  e.target.innerHTML = getEditView(e.target.textContent)
+}
+
+
 function globalKey(e){
-  // console.log(`Clicked`, e.target.value)
+
   if (e.code == 'Enter'){
      let task = e.target.value
      let storage = getStorage()
-
+     
       // Get local storage and make it's clone
       // Add task item in new storage
       // Set new storage
       let currentBlockId = e.target.closest('.block').id
       let storageNew = storage.find(blocks => blocks.blockId == currentBlockId)
-      storageNew.tasks.push({ id: 1, name: 'task', order: 1, deleted: false })
+      const n = storageNew.tasks.length + 1
+      storageNew.tasks.push({ id: n, name: task, order: n, deleted: false })
       
       let newArr = storage.map((item) => {
         if (item.blockId == currentBlockId) item = storageNew
         return item
       })
-      // console.log(newArr)
+
       setStorage(newArr)
-      // location.reload()
-      console.log(`data`, newArr)
+      location.reload()
+      
   }
 
 }
@@ -156,11 +164,13 @@ let dragEl = null
 
 function handleDragstart(e){
   dragEl = this
+
   if (e.target.classList.contains('panel-block')){
     e.dataTransfer.effectAllowed = 'move'
-    // console.log(this)
+    
     this.style.opacity = '0.4'
     e.dataTransfer.setData('text/plain', this.innerHTML)
+    e.dataTransfer.setData('html', e.target.closest('.block').id)
   }
 }
 
@@ -173,38 +183,65 @@ function handleDragdrop(e){
   let storage = getStorage()
   let newTasks = []
   let newArr = []
+  
 
   if (dragEl != this){
     dragEl.style.opacity = '1'
-
     dragEl.innerHTML = this.innerHTML
     this.innerHTML = e.dataTransfer.getData('text')
+    const dragToBlockID = e.dataTransfer.getData('html')
     
     // Change order of task
     let currentBlock = this.closest('.block').querySelectorAll('nav a.panel-block')
     const currentBlockId = parseInt(this.closest('.block').id)
-    let store = storage.find(blocks => blocks.blockId == currentBlockId)
-    
- 
+    // console.log(`to block ID`, currentBlockId, 'From', e.dataTransfer.getData('html')) 
+
+    // let store = storage.find(blocks => blocks.blockId == currentBlockId)
+    // console.log(`currentBlock`, currentBlock)
+
+
+    // Handling from block
+
     currentBlock.forEach((item, index) => {
       const taskName = item.textContent.trim()
       const taskId = item.id
-      newTasks.push({id: taskId, name: taskName, order: index + 1, deleted: false})  
-
+      newTasks.push({ id: taskId, name: taskName, order: index + 1, deleted: false })
+ 
       // Change style
       item.classList.remove('over')
     })
 
-    newArr = storage.map(item =>  {
+    newArr = storage.map(item => {
       if (item.blockId == currentBlockId) {
         item.tasks = newTasks
       }
-        return item          
+        return item
+    })
+    setStorage(newArr)
+
+    newArr = []
+    newTasks = []
+    // Handling TO block
+    let dragToBlock = document.querySelectorAll(`[id="${dragToBlockID}"] nav a.panel-block`)
+    dragToBlock.forEach((item, index) => {
+      const taskName = item.textContent.trim()
+      const taskId = item.id
+      // console.log(taskName, taskId)       
+      newTasks.push({ id: taskId, name: taskName, order: index + 1, deleted: false })
+      // Change style
+      item.classList.remove('over')
     })
 
+    newArr = storage.map(item => {
+      if (item.blockId == dragToBlockID) {
+        item.tasks = newTasks
+      }
+        return item
+    })
     setStorage(newArr)
-  }
+ 
 
+  }
 
   return false
 }

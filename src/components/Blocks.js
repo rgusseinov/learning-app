@@ -44,9 +44,7 @@ class Blocks {
       <div class="block" id="${blockId}">
         <nav class="panel">
           <p class="panel-heading">${boardName}
-            <span class="icon has-text-info actionRemoveBlock">
-              <i class="fas fa-trash"></i>
-            </span>
+            <span class="icon has-text-info actionRemoveBlock"><i class="fas fa-trash"></i></span>
           </p>
           <div class="panel-block">
             <p class="control has-icons-left">
@@ -58,7 +56,7 @@ class Blocks {
           </div>
           ${taskList.join('')}
         </nav>
-    </div>
+      </div>
     `
   }
 
@@ -76,6 +74,7 @@ class Blocks {
     </div>
     `
   }
+  
 
   toHTML(){
     // Если есть данные в localStorage то рисуем блоки и тасками
