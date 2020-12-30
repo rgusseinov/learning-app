@@ -31,7 +31,7 @@ class Main {
     document.querySelector('body').addEventListener('dblclick', handleUserDblCLick)
 
     // Block quick edit save
-    document.querySelector('body').addEventListener('click', handleBlockSave)
+    document.querySelector('body').addEventListener('click', handleItemSave)
 
     // Adding new task Block
     document.querySelector('.addBlock').addEventListener('click', handleNewBlock.bind(this))
@@ -43,7 +43,7 @@ class Main {
     })
 
     // Adding new task
-    let searchInput = document.querySelectorAll('.addNewTask')
+/*     let searchInput = document.querySelectorAll('.addNewTask')
     searchInput.forEach(searchField => {
       searchField.addEventListener('keydown', (e) => {
         if (e.code == 'Enter_test') {
@@ -64,7 +64,7 @@ class Main {
           location.reload()
         }     
       })
-    })
+    }) */
     
 
     // Drag and drop
@@ -91,27 +91,49 @@ class Main {
 
 // On Block name edit
 function handleUserDblCLick(e){
-  e.target.innerHTML = getEditView(e.target.textContent)
+  // console.log(`dbl`, e.target)
+  e.target.innerHTML = getEditView(e.target.textContent.trim())
 }
 
 
-// On Block name save
-function handleBlockSave(e){
-  if (e.target.parentElement.classList.contains('actionSaveBlock')){
-    const currentBlockId = e.target.closest('.block').id
+// Save function
+function handleItemSave(e){
+  const storage = getStorage()
+
+  const el = e.target.parentElement.parentElement
+  if (el.classList.contains('panel-heading')){
+    
+    const currentBlockId = el.closest('.block').id
     const currentBlockName = e.target.parentElement.previousElementSibling.value.trim()
-    const storage = getStorage()
+    
+    if (currentBlockName.length > 0){
+      let storageNew = storage.find(blocks => blocks.blockId == currentBlockId)
+      storageNew.boardName = currentBlockName
 
-    let storageNew = storage.find(blocks => blocks.blockId == currentBlockId)
-    storageNew.boardName = currentBlockName
+      let updatedStorage = storage.map((item) => {
+        if (item.blockId == currentBlockId) item = storageNew
+        return item
+      })
+      setStorage(updatedStorage)
+      location.reload()
+    }
+  } else if (el.classList.contains('panel-block')){
 
-    let newArr = storage.map((item) => {
-      if (item.blockId == currentBlockId) item = storageNew
+    const taskName = e.target.parentElement.previousElementSibling.value
+    const taskId = el.id
+    const currentBlockId = e.target.closest('.block').id
+    const store = storage.find(blocks => blocks.blockId == currentBlockId)
+
+    const taskIndex = store.tasks.findIndex(item => item.id == taskId)
+    store.tasks[taskIndex].name = taskName
+
+    let updatedStore = storage.map(item => {
+      if (item.blockId == currentBlockId) item = store
       return item
     })
-
-    // setStorage(newArr)
-    console.log(`storageNew`, newArr)
+  
+    setStorage(updatedStore)
+    location.reload()
   }
 }
 

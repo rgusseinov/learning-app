@@ -41,7 +41,7 @@ class Blocks {
       `
     })
     return `
-      <div class="block" id="${blockId}">
+      <div class="block" id="${blockId}" draggable="true">
         <nav class="panel">
           <p class="panel-heading">${boardName}
             <span class="icon has-text-info actionRemoveBlock"><i class="fas fa-trash"></i></span>
