@@ -3,26 +3,8 @@ import {getStorage, setStorage} from './Storage'
 class Blocks {
   constructor(){
     this.storage = getStorage()
-
-/*        this.data = [
-        {blockId: 1, boardName: 'Task list', tasks: [
-          { id: 1, name: 'Create project file 3', order: 3, deleted: false },
-          { id: 2, name: 'Task 1', order: 1, deleted: false },
-          { id: 3, name: 'Task 4', order: 4, deleted: false },
-          { id: 3, name: 'Task 2 ', order: 2, deleted: false }
-        ]},
-
-        {blockId: 2, boardName: 'In Progress List', tasks: [
-          { id: 1, name: 'Discussing', order: 1, deleted: false },
-        ]},
-
-    ]
-    setStorage(this.data) */
-
-
   }
   
-
   getBlocks(blockId, boardName, tasks){
     let orderedTaskList = []
     tasks.forEach(item => orderedTaskList[item.order] = { ...item})
@@ -78,9 +60,7 @@ class Blocks {
 
   toHTML(){
     // Если есть данные в localStorage то рисуем блоки и тасками
-    let html = ''
-    // console.log(`storage`, this.storage)
-    
+    let html = '' 
     if (this.storage){
       this.storage.forEach(board => {
         html += this.getBlocks(board.blockId, board.boardName, board.tasks)

@@ -41,33 +41,9 @@ class Main {
     taskBlocks.forEach(block => {
       block.addEventListener('click', handleRemoveBlock)
     })
-
-    // Adding new task
-/*     let searchInput = document.querySelectorAll('.addNewTask')
-    searchInput.forEach(searchField => {
-      searchField.addEventListener('keydown', (e) => {
-        if (e.code == 'Enter_test') {
-          let task = e.target.value
-          // Get local storage and make it's clone
-          // Add task item in new storage
-          // Set new storage
-          let currentBlockId = e.target.closest('.block').id
-          let storage = this.storage.find(blocks => blocks.blockId == currentBlockId)
-          storage.tasks.push({ id: storage.tasks.length + 1, name: task, order: storage.tasks.length + 1, deleted: false })
-          
-          let newArr = this.storage.map((item) => {
-            if (item.blockId == currentBlockId) item = storage
-            return item
-          })
-          // console.log(newArr)
-          setStorage(newArr)
-          location.reload()
-        }     
-      })
-    }) */
     
 
-    // Drag and drop
+    // Drag and drop of tasks
     let taskItems = document.querySelectorAll('.panel a.panel-block')
     
     taskItems.forEach(item => {
@@ -79,12 +55,13 @@ class Main {
       item.addEventListener("dragend", handleDragend)
     })
 
-
     // Remove task item
     taskItems = document.querySelectorAll('.actionRemoveTask')
     taskItems.forEach(item => {
       item.addEventListener('click', handleRemoveTask.bind(this))
     })
+
+
   }
 
 }
@@ -164,7 +141,6 @@ function globalKey(e){
 
 }
 
-
 function handleNewBlock(){
   
   let countBlocks = getStorage().length + 1
@@ -194,7 +170,6 @@ function handleNewBlock(){
 
 }
 
-
 function handleRemoveBlock(e){
   // console.log(`Remove block`, e.target.closest('.block'))
   const storage = getStorage()
@@ -218,7 +193,11 @@ function handleDragstart(e){
     this.style.opacity = '0.4'
     e.dataTransfer.setData('text/plain', this.innerHTML)
     e.dataTransfer.setData('html', e.target.closest('.block').id)
+  } else if (e.target.classList.contains('block')){
+    console.log(`drag of block`)
   }
+
+  
 }
 
 function handleDragover(e){
