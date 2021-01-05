@@ -55,6 +55,21 @@ class Main {
       item.addEventListener("dragend", handleDragend)
     })
 
+
+    // Drag and drop for blocks
+    let taskBlock = document.querySelectorAll('.block')
+    
+    taskBlock.forEach(item => {
+      // console.log(item)
+      item.addEventListener("dragstart", handleBlockDragstart)
+      item.addEventListener("dragover", handleBlockDragover)
+      item.addEventListener("dragenter", handleBlockDragenter)
+      item.addEventListener("drop", handleBlockDragdrop)
+      item.addEventListener("dragend", handleBlockDragend)
+
+    })
+
+
     // Remove task item
     taskItems = document.querySelectorAll('.actionRemoveTask')
     taskItems.forEach(item => {
@@ -68,8 +83,10 @@ class Main {
 
 // On Block name edit
 function handleUserDblCLick(e){
-  // console.log(`dbl`, e.target)
-  e.target.innerHTML = getEditView(e.target.textContent.trim())
+  // console.log(`dbl`, e.target.classList)
+  if (e.target.classList.contains('panel-heading') || e.target.classList.contains('panel-block')){
+    e.target.innerHTML = getEditView(e.target.textContent.trim())
+  }
 }
 
 
@@ -80,44 +97,52 @@ function handleItemSave(e){
   const el = e.target.parentElement.parentElement
   if (el.classList.contains('panel-heading')){
     
-    const currentBlockId = el.closest('.block').id
-    const currentBlockName = e.target.parentElement.previousElementSibling.value.trim()
-    
-    if (currentBlockName.length > 0){
-      let storageNew = storage.find(blocks => blocks.blockId == currentBlockId)
-      storageNew.boardName = currentBlockName
+    if (e.target.parentElement.previousElementSibling){
 
-      let updatedStorage = storage.map((item) => {
-        if (item.blockId == currentBlockId) item = storageNew
-        return item
-      })
-      setStorage(updatedStorage)
-      location.reload()
+      const currentBlockId = el.closest('.block').id
+      const currentBlockName = e.target.parentElement.previousElementSibling.value.trim()
+      
+      if (currentBlockName.length > 0){
+        let storageNew = storage.find(blocks => blocks.blockId == currentBlockId)
+        storageNew.boardName = currentBlockName
+
+        let updatedStorage = storage.map((item) => {
+          if (item.blockId == currentBlockId) item = storageNew
+          return item
+        })
+        setStorage(updatedStorage)
+        location.reload()
+      }
+
     }
   } else if (el.classList.contains('panel-block')){
 
-    const taskName = e.target.parentElement.previousElementSibling.value
-    const taskId = el.id
-    const currentBlockId = e.target.closest('.block').id
-    const store = storage.find(blocks => blocks.blockId == currentBlockId)
+    if (e.target.parentElement.previousElementSibling){
+      const taskName = e.target.parentElement.previousElementSibling.value
+      const taskId = el.id
+      const currentBlockId = e.target.closest('.block').id
+      const store = storage.find(blocks => blocks.blockId == currentBlockId)
 
-    const taskIndex = store.tasks.findIndex(item => item.id == taskId)
-    store.tasks[taskIndex].name = taskName
+      const taskIndex = store.tasks.findIndex(item => item.id == taskId)
+      store.tasks[taskIndex].name = taskName
 
-    let updatedStore = storage.map(item => {
-      if (item.blockId == currentBlockId) item = store
-      return item
-    })
-  
-    setStorage(updatedStore)
-    location.reload()
+      let updatedStore = storage.map(item => {
+        if (item.blockId == currentBlockId) item = store
+        return item
+      })
+    
+      setStorage(updatedStore)
+      location.reload()
+    }
+
   }
 }
 
 
 function globalKey(e){
-
-  if (e.code == 'Enter'){
+ 
+  if (e.code == 'Enter' && e.target.classList.contains('addNewTask')){
+    // console.log(`key`, e.target.classList)
      let task = e.target.value
      let storage = getStorage()
      
@@ -145,7 +170,7 @@ function handleNewBlock(){
   
   let countBlocks = getStorage().length + 1
   let storage = getStorage()
-  storage.push({ blockId: countBlocks, boardName: `Board ${countBlocks}`, tasks: [] })
+  storage.push({ blockId: countBlocks, order: countBlocks, boardName: `Board ${countBlocks}`, tasks: [] })
   setStorage(storage)
 
   this.$el.insertAdjacentHTML('afterend', `
@@ -182,8 +207,8 @@ function handleRemoveBlock(e){
 }
 
 
+// Drag and drope the task
 let dragEl = null
-
 function handleDragstart(e){
   dragEl = this
 
@@ -195,9 +220,7 @@ function handleDragstart(e){
     e.dataTransfer.setData('html', e.target.closest('.block').id)
   } else if (e.target.classList.contains('block')){
     console.log(`drag of block`)
-  }
-
-  
+  } 
 }
 
 function handleDragover(e){
@@ -274,14 +297,64 @@ function handleDragdrop(e){
 
 function handleDragend(e){ }
 
-function handleDragenter(e){ 
+function handleDragenter(e){
   this.classList.add('over')
 }
 
 function handleDragleave(e){ 
   this.classList.remove('over')
 }
-  
+
+
+// Drag and Drop the block
+let blockEl = null
+
+function handleBlockDragstart(e){
+  blockEl = this
+
+  if (e.target.classList.contains('block')){
+    e.dataTransfer.effectAllowed = 'move'
+    
+    this.style.opacity = '0.4'
+    e.dataTransfer.setData('text/plain', this.innerHTML)
+    e.dataTransfer.setData('html', e.target.id)
+    
+  }
+}
+
+function handleBlockDragover(e){
+  e.preventDefault()
+}
+
+function handleBlockDragenter(e){
+  // this.classList.add('over')
+}
+
+
+
+function handleBlockDragdrop(e){
+  // e.stopPropagation()
+  // let storage = getStorage()
+
+    // Change order of task
+    const currentBlockId = e.target.closest('.block')
+
+    blockEl.style.opacity = '1'
+    blockEl.innerHTML = this.innerHTML
+    this.innerHTML = e.dataTransfer.getData('text')
+    // const dragToBlockID = e.dataTransfer.getData('html')
+
+
+    // console.log(`currentBlockId`, currentBlockId)
+  // return false
+}
+
+
+function handleBlockDragend(e){ }
+
+
+
+
 
 
 
