@@ -170,7 +170,7 @@ function handleNewBlock(){
   
   let countBlocks = getStorage().length + 1
   let storage = getStorage()
-  storage.push({ blockId: countBlocks, order: countBlocks, boardName: `Board ${countBlocks}`, tasks: [] })
+  storage.push({ blockId: countBlocks, order: countBlocks.toString(), boardName: `Board ${countBlocks}`, tasks: [] })
   setStorage(storage)
 
   this.$el.insertAdjacentHTML('afterend', `
@@ -306,12 +306,13 @@ let blockEl = null
 function handleBlockDragstart(e){
   blockEl = this
 
+
   if (e.target.classList.contains('block')){
     e.dataTransfer.effectAllowed = 'move'
-    
+    // console.log(`info`, e.target.getAttribute('order'))
     this.style.opacity = '0.4'
     e.dataTransfer.setData('text/plain', this.innerHTML)
-    e.dataTransfer.setData('html', e.target.id)
+    e.dataTransfer.setData('html', e.target.getAttribute('order'))
     
   }
 }
@@ -327,20 +328,31 @@ function handleBlockDragenter(e){
 
 
 function handleBlockDragdrop(e){
-  // e.stopPropagation()
-  // let storage = getStorage()
+  e.stopPropagation()
+  let updateBlocks = []
+  let storage = getStorage()
 
-    // Change order of task
-    const currentBlockId = e.target.closest('.block')
+    // Change order of block
+    const dragToBlockOrder = e.target.closest('.block').getAttribute('order')
+    const dragFromBlockOrder = e.dataTransfer.getData('html')
 
     blockEl.style.opacity = '1'
     blockEl.innerHTML = this.innerHTML
     this.innerHTML = e.dataTransfer.getData('text')
-    // const dragToBlockID = e.dataTransfer.getData('html')
-
-
-    // console.log(`currentBlockId`, currentBlockId)
-  // return false
+    
+    storage.map((item, index) => {
+      if (item.order == dragToBlockOrder) {
+        item.order = dragFromBlockOrder
+        storage[index].order = dragToBlockOrder.toString()
+      }
+      return item
+    })
+ 
+    setStorage(storage)
+    
+    console.log(`updateBlocks`, storage)
+    console.log(`From`, dragFromBlockOrder, `To`, dragToBlockOrder)
+  return false
 }
 
 

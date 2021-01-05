@@ -5,7 +5,7 @@ class Blocks {
     this.storage = getStorage()
   }
   
-  getBlocks(blockId, boardName, tasks){
+  getBlocks(blockId, blockOrder, boardName, tasks){
     let orderedTaskList = []
     tasks.forEach(item => orderedTaskList[item.order] = { ...item})
 
@@ -23,7 +23,7 @@ class Blocks {
       `
     })
     return `
-      <div class="block" id="${blockId}" draggable="true">
+      <div class="block" id="${blockId}" order="${blockOrder}" draggable="true">
         <nav class="panel">
           <p class="panel-heading">${boardName}
             <span class="icon has-text-info actionRemoveBlock"><i class="fas fa-trash"></i></span>
@@ -61,14 +61,24 @@ class Blocks {
   toHTML(){
     // Если есть данные в localStorage то рисуем блоки и тасками
     let html = '' 
-    if (this.storage){
-      this.storage.forEach(board => {
-        html += this.getBlocks(board.blockId, board.boardName, board.tasks)
+    let orderedBlocks = []
+    orderedBlocks = this.storage.sort(compare)
+    console.log(orderedBlocks)
+
+    if (orderedBlocks){
+      orderedBlocks.forEach(board => {
+        html += this.getBlocks(board.blockId, board.order, board.boardName, board.tasks)
       })
     } 
 
     return html
   }
+}
+
+function compare(a, b){
+  if (a.order > b.order) return 1
+  if (a.order < b.order) return -1
+  return 0
 }
 
 export default Blocks
