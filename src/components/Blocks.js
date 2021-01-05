@@ -63,11 +63,11 @@ class Blocks {
     let html = '' 
     let orderedBlocks = []
     orderedBlocks = this.storage.sort(compare)
-    console.log(orderedBlocks)
+    // console.log(orderedBlocks)
 
     if (orderedBlocks){
       orderedBlocks.forEach(board => {
-        html += this.getBlocks(board.blockId, board.order, board.boardName, board.tasks)
+        html += this.getBlocks(board.blockId, parseInt(board.order), board.boardName, board.tasks)
       })
     } 
 

@@ -64,6 +64,7 @@ class Main {
       item.addEventListener("dragstart", handleBlockDragstart)
       item.addEventListener("dragover", handleBlockDragover)
       item.addEventListener("dragenter", handleBlockDragenter)
+      item.addEventListener("dragleave", handleBlockDragleave)
       item.addEventListener("drop", handleBlockDragdrop)
       item.addEventListener("dragend", handleBlockDragend)
 
@@ -170,7 +171,7 @@ function handleNewBlock(){
   
   let countBlocks = getStorage().length + 1
   let storage = getStorage()
-  storage.push({ blockId: countBlocks, order: countBlocks.toString(), boardName: `Board ${countBlocks}`, tasks: [] })
+  storage.push({ blockId: countBlocks, order: parseInt(countBlocks), boardName: `Board ${countBlocks}`, tasks: [] })
   setStorage(storage)
 
   this.$el.insertAdjacentHTML('afterend', `
@@ -322,36 +323,39 @@ function handleBlockDragover(e){
 }
 
 function handleBlockDragenter(e){
-  // this.classList.add('over')
+  // console.log(`this`, this)
+  this.classList.add('over')
 }
 
-
+function handleBlockDragleave(e){
+  this.classList.remove('over')
+}
 
 function handleBlockDragdrop(e){
   e.stopPropagation()
-  let updateBlocks = []
   let storage = getStorage()
 
+  // console.log(`before`, storage)
+
     // Change order of block
-    const dragToBlockOrder = e.target.closest('.block').getAttribute('order')
-    const dragFromBlockOrder = e.dataTransfer.getData('html')
+    const dragToBlockOrder = parseInt(e.target.closest('.block').getAttribute('order'))
+    const dragFromBlockOrder = parseInt(e.dataTransfer.getData('html'))
 
     blockEl.style.opacity = '1'
     blockEl.innerHTML = this.innerHTML
     this.innerHTML = e.dataTransfer.getData('text')
     
-    storage.map((item, index) => {
-      if (item.order == dragToBlockOrder) {
-        item.order = dragFromBlockOrder
-        storage[index].order = dragToBlockOrder.toString()
-      }
-      return item
-    })
+    let indexTo = storage.findIndex(block => block.order == dragToBlockOrder)
+    let indexFrom = storage.findIndex(block => block.order == dragFromBlockOrder)
+      
+    storage[indexTo].order = dragFromBlockOrder
+    storage[indexFrom].order = dragToBlockOrder
  
     setStorage(storage)
+    this.classList.remove('over')
+    // console.log(`this`, this)
+    // console.log(`indexTo`, indexTo, `indexFrom`, indexFrom)
     
-    console.log(`updateBlocks`, storage)
-    console.log(`From`, dragFromBlockOrder, `To`, dragToBlockOrder)
   return false
 }
 
