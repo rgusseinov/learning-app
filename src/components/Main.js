@@ -243,12 +243,6 @@ function handleDragdrop(e){
     // Change order of task
     let currentBlock = this.closest('.block').querySelectorAll('nav a.panel-block')
     const currentBlockId = parseInt(this.closest('.block').id)
-    // console.log(`to block ID`, currentBlockId, 'From', e.dataTransfer.getData('html')) 
-
-    // let store = storage.find(blocks => blocks.blockId == currentBlockId)
-    // console.log(`currentBlock`, currentBlock)
-
-
     // Handling from block
 
     currentBlock.forEach((item, index) => {
