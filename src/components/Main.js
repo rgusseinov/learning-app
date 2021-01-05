@@ -60,7 +60,7 @@ class Main {
     let taskBlock = document.querySelectorAll('.block')
     
     taskBlock.forEach(item => {
-      // console.log(item)
+      
       item.addEventListener("dragstart", handleBlockDragstart)
       item.addEventListener("dragover", handleBlockDragover)
       item.addEventListener("dragenter", handleBlockDragenter)
@@ -84,7 +84,6 @@ class Main {
 
 // On Block name edit
 function handleUserDblCLick(e){
-  // console.log(`dbl`, e.target.classList)
   if (e.target.classList.contains('panel-heading') || e.target.classList.contains('panel-block')){
     e.target.innerHTML = getEditView(e.target.textContent.trim())
   }
@@ -143,7 +142,6 @@ function handleItemSave(e){
 function globalKey(e){
  
   if (e.code == 'Enter' && e.target.classList.contains('addNewTask')){
-    // console.log(`key`, e.target.classList)
      let task = e.target.value
      let storage = getStorage()
      
@@ -197,7 +195,6 @@ function handleNewBlock(){
 }
 
 function handleRemoveBlock(e){
-  // console.log(`Remove block`, e.target.closest('.block'))
   const storage = getStorage()
   let currentBlockId = e.target.closest('.block').id
   let currentBlockStoreIndex = storage.findIndex(blocks => blocks.blockId == currentBlockId)
@@ -219,9 +216,8 @@ function handleDragstart(e){
     this.style.opacity = '0.4'
     e.dataTransfer.setData('text/plain', this.innerHTML)
     e.dataTransfer.setData('html', e.target.closest('.block').id)
-  } else if (e.target.classList.contains('block')){
-    console.log(`drag of block`)
-  } 
+  }
+
 }
 
 function handleDragover(e){
@@ -270,7 +266,7 @@ function handleDragdrop(e){
     dragToBlock.forEach((item, index) => {
       const taskName = item.textContent.trim()
       const taskId = item.id
-      // console.log(taskName, taskId)       
+   
       newTasks.push({ id: taskId, name: taskName, order: index + 1, deleted: false })
       // Change style
       item.classList.remove('over')
@@ -310,7 +306,6 @@ function handleBlockDragstart(e){
 
   if (e.target.classList.contains('block')){
     e.dataTransfer.effectAllowed = 'move'
-    // console.log(`info`, e.target.getAttribute('order'))
     this.style.opacity = '0.4'
     e.dataTransfer.setData('text/plain', this.innerHTML)
     e.dataTransfer.setData('html', e.target.getAttribute('order'))
@@ -323,7 +318,6 @@ function handleBlockDragover(e){
 }
 
 function handleBlockDragenter(e){
-  // console.log(`this`, this)
   this.classList.add('over')
 }
 
@@ -334,9 +328,6 @@ function handleBlockDragleave(e){
 function handleBlockDragdrop(e){
   e.stopPropagation()
   let storage = getStorage()
-
-  // console.log(`before`, storage)
-
     // Change order of block
     const dragToBlockOrder = parseInt(e.target.closest('.block').getAttribute('order'))
     const dragFromBlockOrder = parseInt(e.dataTransfer.getData('html'))
@@ -353,9 +344,7 @@ function handleBlockDragdrop(e){
  
     setStorage(storage)
     this.classList.remove('over')
-    // console.log(`this`, this)
-    // console.log(`indexTo`, indexTo, `indexFrom`, indexFrom)
-    
+        
   return false
 }
 
@@ -377,8 +366,6 @@ function handleRemoveTask(e){
   // Add task item in new storage
   // Set new storage
 
-  // console.log(e.target)
-
     let currentBlockId = e.target.closest('.block').id
     let store = storage.find(blocks => blocks.blockId == currentBlockId)
     let removeTaskIndex = store.tasks.findIndex(item => item.id === taskId)
@@ -390,8 +377,6 @@ function handleRemoveTask(e){
     })
 
     e.target.closest('.panel-block').remove()
-    // console.log(e.target.closest('.panel-block'))
-    // console.log(removeTaskIndex)
 
     setStorage(newArr)
     // location.reload()
