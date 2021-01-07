@@ -1,11 +1,13 @@
-import Header from './components/Header';
+// import Header from './components/Header';
 import Blocks from './components/Blocks'
 import Main from './components/Main'
-// import './style.css';
+import Table from './components/Table';
+import './style.css';
 
 
 const main = new Main('#app', {
-  components: [Blocks]}
+    components: [Blocks, Table]
+  }
 )
 
 main.render()
