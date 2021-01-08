@@ -16,6 +16,9 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
 
+  on(eventType, callback){
+    this.$el.addEventListener(eventType, callback)
+  }
 
   append(node){
     

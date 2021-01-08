@@ -1,9 +1,20 @@
-class Table {
+import { Component } from "./Component"
 
+class Table extends Component {
 
-  init(){
-
+  constructor($root){
+    super($root, {
+      name: 'Table',
+      listeners: ['input']
+    })
   }
+  
+
+  onInput(e){
+    console.log('Table Input', e.target.value)
+  }
+
+
   toHTML(){
     return `
       <div class="table-container">

@@ -1,14 +1,24 @@
-class Blocks {
+import { Component } from "./Component"
 
-/*   constructor($root, options = {}){
-    super($root, options.listeners)
-    this.name = options.name
+class Blocks extends Component {
+
+  constructor($root){
+    super($root, {
+      name: 'Block',
+      listeners: ['input', 'click']
+    })
   }
-   */
+  
 
-  init(){
-
+  onInput(e){
+    console.log('Block Input', e.target.value)
   }
+
+  onClick(e){
+    // console.log(`Block Clicked`, e.target)
+  }
+
+
   toHTML(){
     return `
       <div class="block-container">
