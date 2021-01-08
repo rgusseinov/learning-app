@@ -7,6 +7,8 @@ class Blocks extends Component {
       name: 'Block',
       listeners: ['input', 'click']
     })
+
+    console.log(`root`, $root)
   }
   
 
@@ -15,15 +17,35 @@ class Blocks extends Component {
   }
 
   onClick(e){
-    // console.log(`Block Clicked`, e.target)
+    
+    if (e.target.id == 'load'){
+      // console.log(`Block Clicked`, e.target.id)
+      this.getPosts()
+
+    }
   }
 
+  getPosts(){
+    const url = 'https://jsonplaceholder.typicode.com/posts'
+    const posts = fetch(url)
+    
+    
+    const data = posts.then(result => result.json())
+    data.then(post => {
+      post.forEach(element => {
+        // console.log(element.title)
+        this.$root.append(element.title)
+      })
+    })
+    
+  }
 
   toHTML(){
     return `
       <div class="block-container">
-        <input type="text" class="block-input input" placeholder="Block name here">
+        <input type="text" class="block-input input" placeholder="Block name here">        
       </div>
+      <button id="load" class="button"> Получить статьи </button>
     `
   }
 }
