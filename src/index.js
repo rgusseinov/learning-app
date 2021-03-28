@@ -1,3 +1,5 @@
+//////////// Factory Pattern
+
 class standartMembership{
   
   constructor(name){
