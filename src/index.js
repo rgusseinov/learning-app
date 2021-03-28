@@ -1,53 +1,79 @@
-//////////// Factory Pattern
+// Decorator Pattern
 
-class standartMembership{
-  
-  constructor(name){
-    this.count = 5
-    this.name = name
-  }
-  
-  render(){
-    console.log(`Standard for ${this.name}`) 
+class Car {
+
+  constructor(){
+    this.price = 1500
+    this.model = 'Volvo'
   }
 
-}
+  getPrice(){
+    return this.price
+  }
 
-class premiumMembership {
-
-  constructor(name){
-    this.count = 3
-    this.name = name
+  getDescription(){
+    return this.model
   }
 
 }
 
-class MemberFactoty {
 
-  create(type, name){
+class Audi extends Car {
 
-    if (type == 'standard'){
-      const member = new standartMembership(name)
-      if (!member.render){
-        console.log(`No method`)
-      } else {
-        member.render()
-      }
-    }
-
-    if (type == 'premium'){
-      const member = new premiumMembership(name)
-      if (!member.render){
-        console.log(`No method`)
-      } else {
-        member.render()
-      }
-    }
-
+  constructor(){
+    super()
+    this.price = 2500
+    this.model = 'Audi A8'
   }
 
 }
 
-const factory = new MemberFactoty()
-factory.create('standard', 'Ruslan')
-factory.create('premium', 'Samir')
+class BMW extends Car {
+  constructor(){
+    super()
+    this.price = 3500
+    this.model = 'BMW i8'
+  }
+}
+
+// Decorator Autopilot
+
+class Autopilot {
+
+  constructor(car){
+    this.car = car
+  }
+
+  getPrice(){
+    return this.car.getPrice() + 1000
+  }
+
+  getDescription(){
+    return `${this.car.getDescription()} with autopilot`
+  }
+
+}
+
+// Decorator Parktronik
+
+class Parktronik {
+
+  constructor(car){
+    this.car = car
+  }
+
+  getPrice(){
+    return this.car.getPrice() + 2000
+  }
+
+  getDescription(){
+    return `${this.car.getDescription()} with Parktronik`
+  }
+
+}
+
+
+let audi = new Audi()
+audi = new Autopilot(audi)
+
+console.log(audi.getPrice(), audi.getDescription())
