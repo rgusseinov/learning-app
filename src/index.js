@@ -1,79 +1,21 @@
-// Decorator Pattern
+import { Card } from "./components/card"
+import { Container } from "./components/container"
+import { Filters } from "./components/filters"
+import { generateFilters } from "./mock/filter"
+import { generateTasks, render } from './utils'
 
-class Car {
+const TASK_COUNT = 3
+const filters = generateFilters()
 
-  constructor(){
-    this.price = 1500
-    this.model = 'Volvo'
-  }
+const mainBlock = document.querySelector('#main')
+render(mainBlock, new Container().getElement(), `afterbegin`)
 
-  getPrice(){
-    return this.price
-  }
+const filterHeader = mainBlock.firstElementChild
+render(filterHeader, new Filters(filters).getElement(), `afterbegin`)
 
-  getDescription(){
-    return this.model
-  }
-
+const container = mainBlock.firstElementChild
+for (let i=0; i<TASK_COUNT; i++){
+  const task = generateTasks(TASK_COUNT)
+  render(container, new Card(task).getElement(), `beforeend`)
 }
 
-
-class Audi extends Car {
-
-  constructor(){
-    super()
-    this.price = 2500
-    this.model = 'Audi A8'
-  }
-
-}
-
-class BMW extends Car {
-  constructor(){
-    super()
-    this.price = 3500
-    this.model = 'BMW i8'
-  }
-}
-
-// Decorator Autopilot
-
-class Autopilot {
-
-  constructor(car){
-    this.car = car
-  }
-
-  getPrice(){
-    return this.car.getPrice() + 1000
-  }
-
-  getDescription(){
-    return `${this.car.getDescription()} with autopilot`
-  }
-
-}
-
-// Decorator Parktronik
-
-class Parktronik {
-
-  constructor(car){
-    this.car = car
-  }
-
-  getPrice(){
-    return this.car.getPrice() + 2000
-  }
-
-  getDescription(){
-    return `${this.car.getDescription()} with Parktronik`
-  }
-
-}
-
-
-let audi = new Audi()
-audi = new Autopilot(audi)
-
-console.log(audi.getPrice(), audi.getDescription())
