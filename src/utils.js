@@ -1,6 +1,12 @@
-export const generateTasks = (TASK_COUNT) => {
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`)
+  newElement.innerHTML = template
+  return newElement.firstChild
+}
+
+export const generateTasks = () => {
   const randomNumber = Math.floor(Math.round(Math.random() * 3))
-  const id = Math.floor(Math.random() * TASK_COUNT)
+  const id = Math.floor(Math.random() * 3)
   return {
     id,
     title: tasksTitle[randomNumber]

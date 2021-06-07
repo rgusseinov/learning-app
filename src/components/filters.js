@@ -5,7 +5,7 @@ const createFilterMarkup = (name, count) => {
 const createFilterTemplate = (filters) => {
   const filtersMarkup = filters.map(item => createFilterMarkup(item.name, item.count)).join('')
 
-  return `<nav class="orange">
+  return `<nav>
           <div class="nav-wrapper">
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               ${filtersMarkup}
