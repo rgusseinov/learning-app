@@ -31,10 +31,8 @@ export class Card extends Abstract {
   }
 
 
-  setButtonStatusClickHandler(handler){
-  
-    this.getElement().querySelector(``).style.color = 'red';
-
+  setClickHandler(handler){
+    this.getElement().querySelector(`.startTask`).addEventListener(`click`, handler)
   }
   
 }

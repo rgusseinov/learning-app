@@ -6,7 +6,8 @@ const getContainerTemplate = () => {
 
 export class Container extends Abstract {
 
-  getElement(){
+ 
+  getTemplate(){
     return getContainerTemplate()
   }
 

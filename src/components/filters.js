@@ -1,3 +1,5 @@
+import { Abstract } from "./abstract"
+
 const createFilterMarkup = (name, count) => {
   return (`<li><a href="">${name} <span class="badge">${count}</span> </a></li>`)
 }
@@ -16,13 +18,14 @@ const createFilterTemplate = (filters) => {
 
 
 
-export class Filters {
+export class Filters extends Abstract {
 
   constructor(filters){
+    super()
     this._filters = filters
   }
 
-  getElement(){
+  getTemplate(){
     return createFilterTemplate(this._filters)
   }
 

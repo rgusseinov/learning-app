@@ -17,13 +17,12 @@ export class TaskController {
     this._taskComponent = new Card(task)
     
     
-    
-    this._taskComponent.setButtonStatusClickHandler(() => {
+    this._taskComponent.setClickHandler(() => {
       this._onDataChange(this, task)
-      // console.log(`dsfsfd`)
     })
     
-    render(container, this._taskComponent.getTemplate(), `beforeend`)
+    
+    render(container, this._taskComponent, `beforeend`)
    
   }
   

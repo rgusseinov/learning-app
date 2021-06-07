@@ -21,13 +21,26 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`
 }
 
-export const render = (container, element, place) => {
-  switch (place) {
+export const render = (container, component, place) => {
+  
+  switch(place){
     case RenderPosition.AFTERBEGIN:
-      container.insertAdjacentHTML(RenderPosition.AFTERBEGIN, element)
+      container.prepend(component.getElement());
       break;
     case RenderPosition.BEFOREEND:
-      container.insertAdjacentHTML(RenderPosition.BEFOREEND, element)
+      container.append(component.getElement());
       break;
   }
 }
+
+
+/* export const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(RenderPosition.AFTERBEGIN, element)
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(RenderPosition.BEFOREEND, element)
+      break;
+  }
+} */
