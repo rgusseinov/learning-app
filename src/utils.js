@@ -4,11 +4,19 @@ export const createElement = (template) => {
   return newElement.firstChild
 }
 
-export const generateTasks = () => {
+export const generateTasks = (count) => {
+  return new Array(count)
+    .fill(``)
+    .map(generateTask)
+}
+
+const generateTask = () => {
   const randomNumber = Math.floor(Math.round(Math.random() * 3))
   const id = Math.floor(Math.random() * 3)
   return {
     id,
+    isArchive: Math.random() > 0.5,
+    isFavorite: Math.random() > 0.5,
     title: tasksTitle[randomNumber]
   }
 }
@@ -44,3 +52,15 @@ export const render = (container, component, place) => {
       break;
   }
 } */
+
+export const replace = (newComponent, oldComponent) => {
+  const parentElement = oldComponent.getElement().parentElement
+  const newElement = newComponent.getElement()
+  const oldElement = oldComponent.getElement()
+
+  const isExistElements = !!(parentElement && oldElement && newElement)
+
+  if (isExistElements && parentElement.contains(oldElement)){
+      parentElement.replaceChild(newElement, oldElement)
+  }
+}

@@ -1,5 +1,5 @@
 import { generateTasks } from "../utils";
-import { TaskController } from "./TasksContoller";
+import { EmptyTask, TaskController } from "./TasksContoller";
 
 const SHOW_TASKS_COUNT = 3
 
@@ -13,9 +13,10 @@ const renderTasks = (container, tasks, onDataChange) => {
 
 export class BoardController {
 
-  constructor(container){
+  constructor(container, tasksModel){
     this._container = container
     this._tasks = []
+    this._tasksModel = tasksModel
     this._showedTaskControllers = []
     this._onDataChange = this._onDataChange.bind(this)
  
@@ -23,19 +24,57 @@ export class BoardController {
 
   render(){
     const container = this._container.firstElementChild
-  
-    for (let i=0; i< SHOW_TASKS_COUNT; i++){
-      const task = generateTasks()
-      this._tasks.push(task)    
-    }
-      
-    const newTasks = renderTasks(container, this._tasks, this._onDataChange)
+    
+
+    const newTasks = renderTasks(container, this._tasksModel.getTasksAll(), this._onDataChange)
     this._showedTaskControllers = this._showedTaskControllers.concat(newTasks)
      
   }
 
-  _onDataChange(data, e){
-    console.log(`Clicked on`, e)
+  _onDataChange(taskController, oldData, newData){
+    // console.log(oldTask, newTask)
+    
+    // New task
+    if (oldData === EmptyTask){
+      this._creatingTask = null
+
+      if (newData === null){
+        taskController.destroy()
+        this._updateTasks(this._showingTasksCount)
+      
+      } else {
+        // Add task
+    
+        this._tasksModel.addTask(newData)
+        taskController.render(newData)
+
+/*         if (this._showingTasksCount % SHOWING_TASKS_COUNT_ON_BUTTON === 0){
+          const destroyedTask = this._showedTaskControllers.pop()
+          destroyedTask.destroy()
+        } */
+
+        this._showedTaskControllers = [].concat(taskController, this._showedTaskControllers)
+        // this._showingTasksCount = this._showedTaskControllers.length
+
+        // this._renderLoadMoreButton()
+      }
+    } else if (newData === null){
+
+      // Removing task
+      this._tasksModel.removeTask(oldData.id)
+      this._updateTasks(this._showingTasksCount)
+
+    } else {
+      // Update task
+      const isSuccess = this._tasksModel.updateTask(oldData.id, newData)
+      if (isSuccess){
+        taskController.render(newData)
+      }      
+
+    }
+
+
+
   }
 
   

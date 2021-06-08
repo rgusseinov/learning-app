@@ -1,11 +1,12 @@
 import { Abstract } from "./abstract"
 
 const createTaskTemplate = (task) => {
-  const {id, title} = task
+  const {id, title, isArchive} = task
  
   return `<div class="card" data-id="${id}">
             <div class="card-content">
               <p> ${title} </p>
+              ${isArchive ? `Yes` : `No`}
             </div>
             <div class="card-tabs">
               <ul class="tabs tabs-fixed-width">
@@ -27,6 +28,7 @@ export class Card extends Abstract {
   }
 
   getTemplate(){
+    console.log(this._task)
     return createTaskTemplate(this._task)
   }
 

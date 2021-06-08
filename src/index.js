@@ -2,7 +2,8 @@ import { Container } from "./components/container"
 import { Filters } from "./components/filters"
 import { BoardController } from "./controllers/BoardContoller"
 import { generateFilters } from "./mock/filter"
-import { render, RenderPosition } from './utils'
+import { Tasks } from "./models/task"
+import { generateTasks, render, RenderPosition } from './utils'
 
 
 const mainBlock = document.querySelector('#main')
@@ -16,5 +17,10 @@ render(filterHeader, new Filters(filters), `afterbegin`)
 
 const container = mainBlock
 
-const boardController = new BoardController(container)
+const TASK_COUNT = 3
+const tasks = generateTasks(TASK_COUNT)
+const tasksModel = new Tasks()
+tasksModel.setTasks(tasks)
+
+const boardController = new BoardController(container, tasksModel)
 boardController.render()
