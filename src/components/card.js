@@ -28,7 +28,6 @@ export class Card extends Abstract {
   }
 
   getTemplate(){
-    console.log(this._task)
     return createTaskTemplate(this._task)
   }
 

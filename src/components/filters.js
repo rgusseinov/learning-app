@@ -1,10 +1,11 @@
 import { Abstract } from "./abstract"
 
 const createFilterMarkup = (name, count) => {
-  return (`<li><a href="">${name} <span class="badge">${count}</span> </a></li>`)
+  return (`<li><a href="#">${name} <span class="badge">${count}</span> </a></li>`)
 }
 
 const createFilterTemplate = (filters) => {
+  // console.log(filters)
   const filtersMarkup = filters.map(item => createFilterMarkup(item.name, item.count)).join('')
 
   return `<nav>
@@ -22,11 +23,16 @@ export class Filters extends Abstract {
 
   constructor(filters){
     super()
+
     this._filters = filters
   }
 
   getTemplate(){
     return createFilterTemplate(this._filters)
+  }
+
+  setFilterChangeHandler(){
+
   }
 
 }

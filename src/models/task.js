@@ -22,6 +22,10 @@ export class Tasks {
   }
  */
 
+  setCurrentFilter(){
+    
+  }
+
   getTasksAll(){
     return this._tasks
   }
@@ -31,17 +35,12 @@ export class Tasks {
   }
  
   
-  updateTask(id, task){
- 
+  updateTask(id, task){ 
     const index = this._tasks.findIndex((it) => it.id === id)
     if (index === -1) return false
-
     this._tasks = [].concat(this._tasks.slice(0, index), task, this._tasks.slice(index + 1))
-
     this._callHandlers(this._dataChangeHandlers)
-
-    return true
- 
+    return true 
   }
 
   _callHandlers(handlers) {
