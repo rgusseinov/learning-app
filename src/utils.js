@@ -15,6 +15,8 @@ const generateTask = () => {
   const id = Math.floor(Math.random() * 3)
   return {
     id,
+    isProgress: Math.random() > 0.5,
+    isCompleted: Math.random() > 0.5,
     isArchive: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,
     title: tasksTitle[randomNumber]
@@ -31,6 +33,8 @@ export const RenderPosition = {
 
 export const FilterType = {
   ALL: `all`,
+  PROGRESS: `progressd`,
+  COMPLETED: `completed`,
   FAVORITES: `favorites`,
   ARCHIVE: `archive`,
 };
@@ -75,11 +79,13 @@ export const replace = (newComponent, oldComponent) => {
 
 const FILTER_FUNCTIONS = {
   [FilterType.ALL]: (tasks) => tasks.filter(() => true),
+  [FilterType.PROGRESS]: (tasks) => tasks.filter((task) => task.isProgress),
+  [FilterType.COMPLETED]: (tasks) => tasks.filter((task) => task.isCompleted),
   [FilterType.FAVORITES]: (tasks) => tasks.filter((task) => task.isFavorite),
   [FilterType.ARCHIVE]: (tasks) => tasks.filter((task) => task.isArchive),
 };
 
-
+  
 export const getTasksByFilter = (tasks, filterType) => {
   const filteredTasks = FILTER_FUNCTIONS[filterType](tasks)
   return filteredTasks

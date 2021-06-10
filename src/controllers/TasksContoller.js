@@ -26,7 +26,23 @@ export class TaskController {
     const oldTaskComponent = this._taskComponent
     this._taskComponent = new Card(task)
     
-    this._taskComponent.setClickHandler(() => {
+
+    // For start task
+    this._taskComponent.setStartClickHandler(() => {
+      this._onDataChange(this, task, Object.assign({}, task, {
+        isProgress: !task.isProgress
+      }))
+    })
+
+    // For complete task
+    this._taskComponent.setCompleteClickHandler(() => {
+      this._onDataChange(this, task, Object.assign({}, task, {
+        isCompleted: !task.isCompleted
+      }))
+    })
+
+    // For archive tasks
+    this._taskComponent.setArchiveClickHandler(() => {
       this._onDataChange(this, task, Object.assign({}, task, {
         isArchive: !task.isArchive
       }))

@@ -31,9 +31,18 @@ export class Card extends Abstract {
     return createTaskTemplate(this._task)
   }
 
-
-  setClickHandler(handler){
+  setStartClickHandler(handler){
     this.getElement().querySelector(`.startTask`).addEventListener(`click`, handler)
   }
+
+  setCompleteClickHandler(handler){
+    this.getElement().querySelector(`.completeTask`).addEventListener(`click`, handler)
+  }
+
+  setArchiveClickHandler(handler){
+    this.getElement().querySelector(`.archiveTask`).addEventListener(`click`, handler)
+  }
+
+
   
 }
