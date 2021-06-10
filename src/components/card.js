@@ -10,8 +10,8 @@ const createTaskTemplate = (task) => {
             </div>
             <div class="card-tabs">
               <ul class="tabs tabs-fixed-width">
-                <li class="tab startTask"><a href="#test4">Начать </a></li>
-                <li class="tab completeTask"><a class="active" href="#test5">Завершить</a></li>
+                <li class="tab startTask"><a class="active" href="#test4">Начать </a></li>
+                <li class="tab completeTask"><a href="#test5">Завершить</a></li>
                 <li class="tab archiveTask"><a href="#test6">В Архив </a></li>
               </ul>
             </div>
@@ -28,7 +28,6 @@ export class Card extends Abstract {
   }
 
   getTemplate(){
-    console.log(this._task)
     return createTaskTemplate(this._task)
   }
 
