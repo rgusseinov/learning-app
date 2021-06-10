@@ -32,7 +32,6 @@ export class BoardController {
   }
 
   _onDataChange(taskController, oldData, newData){
-    // console.log(oldTask, newTask)
     
     // New task
     if (oldData === EmptyTask){

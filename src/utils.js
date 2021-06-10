@@ -29,6 +29,14 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`
 }
 
+export const FilterType = {
+  ALL: `all`,
+  FAVORITES: `favorites`,
+  ARCHIVE: `archive`,
+};
+
+
+
 export const render = (container, component, place) => {
   
   switch(place){
@@ -64,3 +72,15 @@ export const replace = (newComponent, oldComponent) => {
       parentElement.replaceChild(newElement, oldElement)
   }
 }
+
+const FILTER_FUNCTIONS = {
+  [FilterType.ALL]: (tasks) => tasks.filter(() => true),
+  [FilterType.FAVORITES]: (tasks) => tasks.filter((task) => task.isFavorite),
+  [FilterType.ARCHIVE]: (tasks) => tasks.filter((task) => task.isArchive),
+};
+
+
+export const getTasksByFilter = (tasks, filterType) => {
+  const filteredTasks = FILTER_FUNCTIONS[filterType](tasks)
+  return filteredTasks
+};
