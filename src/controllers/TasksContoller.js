@@ -22,7 +22,6 @@ export class TaskController {
   }
 
   render(task){
-    // const container = this._container
     const oldTaskComponent = this._taskComponent
     this._taskComponent = new Card(task)
     

@@ -32,8 +32,17 @@ export class Filters extends Abstract {
     return createFilterTemplate(this._filters)
   }
 
-  setFilterChangeHandler(){
 
+  setFilterChangeHandler(onFilterChange) {
+    const container = this.getElement();
+
+    container.addEventListener(`change`, (evt) => {
+      console.log(`onFilterChange`, onFilterChange)
+      // const currentFilter = parsePrefixId(FILTER_ID_PREFIX, evt.target.id);
+      // onFilterChange(currentFilter);
+    });
   }
+
+
 
 }

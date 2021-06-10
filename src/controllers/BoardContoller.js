@@ -1,7 +1,4 @@
-import { generateTasks } from "../utils";
 import { EmptyTask, TaskController } from "./TasksContoller";
-
-const SHOW_TASKS_COUNT = 3
 
 const renderTasks = (container, tasks, onDataChange) => {
   return tasks.map((task) => {
@@ -11,6 +8,9 @@ const renderTasks = (container, tasks, onDataChange) => {
   })
 }
 
+const SHOWING_TASKS_COUNT_ON_START = 3
+
+
 export class BoardController {
 
   constructor(container, tasksModel){
@@ -19,16 +19,18 @@ export class BoardController {
     this._tasksModel = tasksModel
     this._showedTaskControllers = []
     this._onDataChange = this._onDataChange.bind(this)
+
+    this._onFilterChange = this._onFilterChange.bind(this)
+    // this._sort._setSortTypeChangeHandler = this._onFilterChange.bind(this)
+    this._tasksModel.setFilterChangeHandler(this._onFilterChange)
+
  
   }
 
   render(){
     const container = this._container.firstElementChild
-    
-
     const newTasks = renderTasks(container, this._tasksModel.getTasksAll(), this._onDataChange)
-    this._showedTaskControllers = this._showedTaskControllers.concat(newTasks)
-     
+    this._showedTaskControllers = this._showedTaskControllers.concat(newTasks)  
   }
 
   _onDataChange(taskController, oldData, newData){
@@ -74,6 +76,11 @@ export class BoardController {
 
 
 
+  }
+
+
+  _onFilterChange(){
+    this._updateTasks(SHOWING_TASKS_COUNT_ON_START)
   }
 
   

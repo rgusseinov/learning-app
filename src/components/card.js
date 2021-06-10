@@ -1,12 +1,13 @@
 import { Abstract } from "./abstract"
 
 const createTaskTemplate = (task) => {
-  const {id, title, isArchive} = task
+  const {id, title, isCompleted} = task
  
+  // console.log(task)
   return `<div class="card" data-id="${id}">
             <div class="card-content">
               <p> ${title} </p>
-              ${isArchive ? `Yes` : `No`}
+              ${isCompleted ? `Yes` : `No`}
             </div>
             <div class="card-tabs">
               <ul class="tabs tabs-fixed-width">
