@@ -42,13 +42,12 @@ export class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this)
     this._onDataChange = this._onDataChange.bind(this)
     this._tasksModel.setDataChangeHandler(this._onDataChange)
-
-
   }
 
   render(){
-    const allTasks = this._tasksModel.getTasksAll();
+    const allTasks = this._tasksModel.getTasksAll()    
     this._updateFilters(allTasks)
+    
     if (!this._filtersComponent) {
 
       this._filtersComponent = new Filters(filters)

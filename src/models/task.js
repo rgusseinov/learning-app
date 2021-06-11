@@ -13,7 +13,7 @@ export class Tasks {
   }
 
 
-  setTasks(tasks){
+  setTasks(tasks){    
     this._tasks = Array.from(tasks)
     this._callHandlers(this._dataChangeHandlers);
   }

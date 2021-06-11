@@ -11,7 +11,7 @@ export class API {
     this.fb.initializeApp(firebaseConfig)
   }
 
-  async getTasksAll(){
+  async getTasks(){
     const snapshot = await this.fb.firestore().collection('tasks').get().then((res) => {      
       return res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     }).then(data => data)

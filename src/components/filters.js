@@ -10,6 +10,7 @@ const createFilterTemplate = (filters) => {
   const filtersMarkup = filtersKeys
       .map((key) => createFilterMarkup(filters[key], key, filters[key].checked))
       .join(``);
+      
   return `<nav>
           <div class="nav-wrapper">
             <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -37,7 +38,7 @@ export class Filters extends Abstract {
     const container = this.getElement();
 
     container.addEventListener(`change`, (evt) => {
-      console.log(`onFilterChange`, onFilterChange)
+      // console.log(`onFilterChange`, onFilterChange)
       // const currentFilter = parsePrefixId(FILTER_ID_PREFIX, evt.target.id);
       // onFilterChange(currentFilter);
     });
