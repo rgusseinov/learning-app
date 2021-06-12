@@ -42,7 +42,9 @@ export class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this)
     this._onDataChange = this._onDataChange.bind(this)
     this._tasksModel.setDataChangeHandler(this._onDataChange)
+
   }
+
 
   render(){
     const allTasks = this._tasksModel.getTasksAll()    
@@ -66,8 +68,11 @@ export class FilterController {
 
  
   _onFilterChange(filterType) {
-    this._tasksModel.setFilter(filterType);
+    // console.log(`filterType`, filterType)
+
+    this._tasksModel.setFilter(filterType); // Если фильтр изменился то уведомляем всех подписчиков
     this._currentFilter = filterType;
+
   }
 
 

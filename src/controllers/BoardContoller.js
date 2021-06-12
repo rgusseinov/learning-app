@@ -19,11 +19,11 @@ export class BoardController {
     this._tasksModel = tasksModel
     this._showedTaskControllers = []
     this._onDataChange = this._onDataChange.bind(this)
-
+    // this.onSortTypeChange = this._onSortTypeChange.bind(this)
     this._onFilterChange = this._onFilterChange.bind(this)
-    // this._sort._setSortTypeChangeHandler = this._onFilterChange.bind(this)
-    this._tasksModel.setFilterChangeHandler(this._onFilterChange)
 
+    // this._sortComponent.setSortTypeChangeHandler(this._onSortTypeChange)
+    this._tasksModel.setFilterChangeHandler(this._onFilterChange)
  
   }
 
@@ -76,6 +76,26 @@ export class BoardController {
 
 
 
+  }
+  
+  // Когда изменяем фильтры
+  _removeTasks(){
+    this._showedTaskControllers.forEach((taskController) => taskController.destroy())
+    this._showedTaskControllers = []
+  }
+
+  _updateTasks(count){
+    this._removeTasks()
+    this._renderTasks(this._tasksModel.getTasks().slice(0, count))
+  }
+
+
+
+  _renderTasks(tasks){
+    const taskListElement = this._container.firstElementChild
+    const newTasks = renderTasks(taskListElement, tasks, this._onDataChange)
+    this._showedTaskControllers = this._showedTaskControllers.concat(newTasks)
+    this._showingTasksCount = this._showedTaskControllers.length
   }
 
 

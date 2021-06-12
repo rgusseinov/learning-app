@@ -1,5 +1,5 @@
 import { Card } from "../components/card"
-import { render, RenderPosition, replace } from "../utils"
+import { remove, render, RenderPosition, replace } from "../utils"
 
 export const EmptyTask = {
   id: null,
@@ -53,6 +53,10 @@ export class TaskController {
       render(this._container, this._taskComponent, RenderPosition.BEFOREEND)
     }
     
+  }
+
+  destroy(){
+    remove(this._taskComponent)
   }
   
 

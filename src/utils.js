@@ -90,3 +90,10 @@ export const getTasksByFilter = (tasks, filterType) => {
   const filteredTasks = FILTER_FUNCTIONS[filterType](tasks)
   return filteredTasks
 };
+
+export const parsePrefixId = (prefix, id) => id.slice(prefix.length);
+
+export const remove = (component) => {
+  component.getElement().remove()
+  component.removeElement()
+}

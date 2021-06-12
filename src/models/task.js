@@ -1,4 +1,4 @@
-import { FilterType } from "../utils"
+import { FilterType, getTasksByFilter } from "../utils"
 
 export class Tasks {
 
@@ -17,12 +17,11 @@ export class Tasks {
     this._tasks = Array.from(tasks)
     this._callHandlers(this._dataChangeHandlers);
   }
-/* 
-
+  
   getTasks(){
     return getTasksByFilter(this._tasks, this._activeFilterType)
   }
- */
+ 
 
 
   getTasksAll(){
@@ -33,16 +32,22 @@ export class Tasks {
     this._dataChangeHandlers.push(handler)
   }
 
-  // Подписываться снаружи на изминения фильтров
-  setFilter(filterType){
-
-  }
- 
-
   setFilterChangeHandler(handler){
     this._filterChangeHandlers.push(handler)
   }
   
+
+  // Подписываться снаружи на изминения фильтров
+  setFilter(filterType) {
+    // console.log(`filterType`, filterType)
+    this._activeFilterType = filterType;
+    this._callHandlers(this._filterChangeHandlers);
+  }
+
+
+ 
+
+
   updateTask(id, task){
     const index = this._tasks.findIndex((it) => it.id === id)
     if (index === -1) return false
