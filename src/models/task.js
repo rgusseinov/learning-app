@@ -38,15 +38,17 @@ export class Tasks {
   
 
   // Подписываться снаружи на изминения фильтров
-  setFilter(filterType) {
-    // console.log(`filterType`, filterType)
-    this._activeFilterType = filterType;
-    this._callHandlers(this._filterChangeHandlers);
+  setFilter(filterType){
+    this._activeFilterType = filterType
+    // console.log(this._filterChangeHandlers)
+    this._callHandlers(this._filterChangeHandlers) // Вызываем массив с функциями
   }
 
-
- 
-
+  // Observer
+  _callHandlers(handlers) {
+    // console.log(`handlers`, handlers)
+    handlers.forEach((handler) => handler());
+  }
 
   updateTask(id, task){
     const index = this._tasks.findIndex((it) => it.id === id)
@@ -54,12 +56,6 @@ export class Tasks {
     this._tasks = [].concat(this._tasks.slice(0, index), task, this._tasks.slice(index + 1))
     this._callHandlers(this._dataChangeHandlers)
     return true 
-  }
-
-  // Observer
-  _callHandlers(handlers) {
-    // console.log(`handlers`, handlers)
-    handlers.forEach((handler) => handler());
   }
 
 

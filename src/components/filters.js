@@ -58,17 +58,12 @@ export class Filters extends Abstract {
 
   setFilterChangeHandler(onFilterChange) {
     const container = this.getElement()
-    this._callback.filterTypeChange = onFilterChange;
-
+    this._callback.filterTypeChange = onFilterChange
 
     container.addEventListener(`change`, (evt) => {
-      const currentFilter = parsePrefixId(FILTER_ID_PREFIX, evt.target.id);
-
-      // console.log(`evt`, currentFilter)
-      onFilterChange(currentFilter);
+      const currentFilter = parsePrefixId(FILTER_ID_PREFIX, evt.target.id)
+      onFilterChange(currentFilter)
     });
-
-
   }
 
 

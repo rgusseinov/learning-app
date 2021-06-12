@@ -33,7 +33,7 @@ export const RenderPosition = {
 
 export const FilterType = {
   ALL: `all`,
-  PROGRESS: `progressd`,
+  PROGRESS: `progress`,
   COMPLETED: `completed`,
   FAVORITES: `favorites`,
   ARCHIVE: `archive`,

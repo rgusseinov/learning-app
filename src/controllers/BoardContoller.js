@@ -23,6 +23,7 @@ export class BoardController {
     this._onFilterChange = this._onFilterChange.bind(this)
 
     // this._sortComponent.setSortTypeChangeHandler(this._onSortTypeChange)
+    // console.log(this._onFilterChange)
     this._tasksModel.setFilterChangeHandler(this._onFilterChange)
  
   }
@@ -84,11 +85,11 @@ export class BoardController {
     this._showedTaskControllers = []
   }
 
+
   _updateTasks(count){
     this._removeTasks()
     this._renderTasks(this._tasksModel.getTasks().slice(0, count))
   }
-
 
 
   _renderTasks(tasks){
@@ -102,6 +103,5 @@ export class BoardController {
   _onFilterChange(){
     this._updateTasks(SHOWING_TASKS_COUNT_ON_START)
   }
-
   
 }

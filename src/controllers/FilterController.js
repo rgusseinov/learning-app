@@ -53,26 +53,23 @@ export class FilterController {
     if (!this._filtersComponent) {
 
       this._filtersComponent = new Filters(filters)
-      this._filtersComponent.setFilterChangeHandler(this._onFilterChange) // ?
+      this._filtersComponent.setFilterChangeHandler(this._onFilterChange)
       render(this._container, this._filtersComponent, RenderPosition.BEFOREEND)
 
     } else {
 
       const oldComponent = this._filtersComponent
       this._filtersComponent = new Filters(filters)
-      this._filtersComponent.setFilterChangeHandler(this._onFilterChange) // ?
+      this._filtersComponent.setFilterChangeHandler(this._onFilterChange)
       replace(this._filtersComponent, oldComponent)
 
     }
   }
 
  
-  _onFilterChange(filterType) {
-    // console.log(`filterType`, filterType)
-
+  _onFilterChange(filterType){
     this._tasksModel.setFilter(filterType); // Если фильтр изменился то уведомляем всех подписчиков
     this._currentFilter = filterType;
-
   }
 
 

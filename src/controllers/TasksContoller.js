@@ -57,8 +57,7 @@ export class TaskController {
 
   destroy(){
     remove(this._taskComponent)
-  }
-  
+  } 
 
  
 }

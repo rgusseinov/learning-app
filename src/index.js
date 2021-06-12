@@ -18,7 +18,6 @@ const filterHeader = mainBlock.firstElementChild
 const filterController = new FilterController(filterHeader, tasksModel)
 
 const boardController = new BoardController(container, tasksModel)
-// const data = await apiService.getQuize(this.activeCategory)
 
 api.getTasks().
   then((tasks)=> {
